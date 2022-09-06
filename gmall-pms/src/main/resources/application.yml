@@ -1,0 +1,67 @@
+
+# 端口号
+server:
+  port: 18081
+# 数据库
+spring:
+  #spring:
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://192.168.2.108:3316/guli_pms?serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+
+  cloud:
+    # nacos注册中心
+    nacos:
+      discovery:
+        server-addr: 192.168.2.108:8848
+        ip: 127.0.0.1
+    sentinel:
+      transport:
+        dashboard: http://192.168.2.108:8080
+      # 项目启动时将自己注册到sentinel控制台
+      eager: true
+    alibaba:
+      seata:
+        tx-service-group: tx_save_spu
+    mpler:
+      # sleuth分布式链路追中 采集数据的比例 0~1
+      probability: 1
+
+  zipkin:
+    base-url: http://192.168.2.108:9411
+    sender:
+      # sleuth采集的数据发送给zipkin时使用 web Http协议传输
+      type: web
+  redis:
+    # 如果使用的是云服务器：不能使用6379   容易被攻击
+    port: 6379
+    host: 192.168.2.108
+  profiles:
+    # 当前环境为dev环境
+    active: dev
+  application:
+    name: pms-service
+
+# 开启feign对sentinel的支持： 不启用 sentinel熔断降级不生效
+feign:
+  sentinel:
+    enabled: true
+mybatis-plus:
+  mapper-locations: classpath:mapper/*/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+aliyun:
+  oss:
+    accessId: "LTAI5t8HdDodx9QQtPZNocEj"
+    accessKey: 7KY1dlLULYZirUyAtOa97gURCCn7Rr
+    endpoint: "oss-cn-hangzhou.aliyuncs.com"
+    bucket: "gta-gmall"
+    schema: "https://"
+
+
